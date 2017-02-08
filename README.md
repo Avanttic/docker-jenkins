@@ -5,7 +5,8 @@ Jenkins última versión
 
 Acceso:
 
-http://<ip>:8080
+http://\<ip\>:8080
 
-Usuario: jenkins \\
+Usuario: jenkins
+
 Contraseña: jenkins
