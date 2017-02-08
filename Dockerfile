@@ -1,7 +1,7 @@
 FROM debian:jessie
 
 RUN apt-get update
-RUN apt-get -y install wget apt-transport-https
+RUN apt-get -y install wget apt-transport-https unzip
 
 RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
 
@@ -16,7 +16,7 @@ RUN chown jenkins.  /install \
 
 RUN /etc/init.d/jenkins start \
  && su - jenkins -c  "/install/plugins.sh" \
- && su - jenkins -c "wget -O /install/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.jar" \
+ && su - jenkins -c "cd /install;unzip -j -C /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar" \
  && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
  && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
