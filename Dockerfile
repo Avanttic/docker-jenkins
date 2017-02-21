@@ -1,29 +1,24 @@
-FROM debian:stretch
+FROM oraclelinux:6
 
-RUN apt-get update
-RUN apt-get -y install wget apt-transport-https unzip gnupg
+RUN yum install -y wget unzip
 
-RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
+RUN wget --no-check-certificate -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo \
+ && wget --no-check-certificate -O jenkins.io.key https://pkg.jenkins.io/redhat-stable/jenkins.io.key \
+ && rpm --import jenkins.io.key \
+ && yum install -y jenkins java-1.8.0-openjdk
 
-RUN echo "deb https://pkg.jenkins.io/debian-stable binary/" >> /etc/apt/sources.list
+COPY install/ /u01/install/
+COPY scrics/  /u01/scrics/
+RUN chown -R jenkins. /u01/ \
+ && chmod +x /u01/install/*.sh /u01/scrics/*.sh
 
-RUN apt-get update
-RUN apt-get -y install jenkins
+RUN /u01/scrics/start_jenkins.sh \
+ && /u01/install/plugins.sh \
+ && cd /u01/install \
+ && unzip -j -C /usr/lib/jenkins/jenkins.war WEB-INF/jenkins-cli.jar \
+ && chown jenkins. /u01/install/jenkins-cli.jar \
+ && while ( ! ls /var/lib/jenkins/secrets/initialAdminPassword ); do sleep 10;done;contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
+ && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /u01/install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
-COPY install/ /install/
-RUN chown jenkins.  /install \
- && chmod +x /install/*.sh
-
-RUN /etc/init.d/jenkins start \
- && su - jenkins -c  "/install/plugins.sh" \
- && su - jenkins -c "cd /install;unzip -j -C /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar"
-
-RUN service jenkins start \
- && sleep 10 \
- && ls /var/lib/jenkins/secrets/ \
- && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
- && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
-
-#CMD /etc/init.d/jenkins start \
-# && /bin/bash
-CMD /bin/bash
+CMD /u01/scrics/start_jenkins.sh \
+ && /bin/bash
