@@ -14,11 +14,13 @@ COPY install/ /install/
 RUN chown jenkins.  /install \
  && chmod +x /install/*.sh
 
-RUN /etc/init.d/jenkins start \
- && su - jenkins -c  "/install/plugins.sh" \
- && su - jenkins -c "cd /install;unzip -j -C /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar" \
- && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
- && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
+#RUN /etc/init.d/jenkins start \
+# && su - jenkins -c  "/install/plugins.sh" \
+# && su - jenkins -c "cd /install;unzip -j -C /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar" \
+# && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
+# && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
-CMD /etc/init.d/jenkins start \
- && /bin/bash
+#CMD /etc/init.d/jenkins start \
+# && /bin/bash
+
+CMD /bin/bash
