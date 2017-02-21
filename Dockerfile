@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 RUN apt-get update
-RUN apt-get -y install wget apt-transport-https unzip
+RUN apt-get -y install wget apt-transport-https unzip gnupg
 
 RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
 
