@@ -18,11 +18,11 @@ RUN /etc/init.d/jenkins start \
  && su - jenkins -c  "/install/plugins.sh" \
  && su - jenkins -c "cd /install;unzip -j -C /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar"
 
-#RUN /etc/init.d/jenkins start \
-# && sleep 10 \
-# && ls /var/lib/jenkins/secrets/ \
-# && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
-# && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
+RUN service jenkins start \
+ && sleep 10 \
+ && ls /var/lib/jenkins/secrets/ \
+ && contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
+ && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
 #CMD /etc/init.d/jenkins start \
 # && /bin/bash
