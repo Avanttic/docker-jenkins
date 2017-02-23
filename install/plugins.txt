@@ -29,6 +29,7 @@ gradle
 handlebars
 icon-shim
 javadoc
+jquery
 jquery-detached
 jquery-ui
 junit
