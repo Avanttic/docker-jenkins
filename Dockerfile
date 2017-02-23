@@ -1,6 +1,6 @@
 FROM oraclelinux:6
 
-RUN yum install -y wget unzip
+RUN yum install -y wget unzip tar
 
 RUN wget --no-check-certificate -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo \
  && wget --no-check-certificate -O jenkins.io.key https://pkg.jenkins.io/redhat-stable/jenkins.io.key \
