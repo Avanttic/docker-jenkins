@@ -7,6 +7,7 @@ bouncycastle-api
 branch-api
 build-timeout
 cloudbees-folder
+codesonar
 conditional-buildstep
 config-file-provider
 credentials
@@ -29,6 +30,7 @@ handlebars
 icon-shim
 javadoc
 jquery-detached
+jquery-ui
 junit
 ldap
 mailer
@@ -58,6 +60,7 @@ resource-disposer
 run-condition
 scm-api
 script-security
+sonar
 ssh-credentials
 ssh-slaves
 structs
