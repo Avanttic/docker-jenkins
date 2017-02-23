@@ -17,7 +17,7 @@ RUN /u01/install/plugins.sh \
  && cd /u01/install \
  && unzip -j -C /usr/lib/jenkins/jenkins.war WEB-INF/jenkins-cli.jar \
  && chown jenkins. /u01/install/jenkins-cli.jar \
- && code=503;while [ "$code" == "503" ];do sleep 10;code=`curl -w %{http_code} -s http://localhost:8080/cli`;echo $code;done \
+ && code=503;while [ "$code" == "503" ];do sleep 10;code=`curl -w %{http_code} -s -o /dev/null http://localhost:8080/cli`;echo $code;done \
  && while ( ! ls /var/lib/jenkins/secrets/initialAdminPassword ); do sleep 10;done;contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
  && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /u01/install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
