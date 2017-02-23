@@ -16,10 +16,10 @@ RUN /u01/scrics/start_jenkins.sh \
  && /u01/install/plugins.sh \
  && cd /u01/install \
  && unzip -j -C /usr/lib/jenkins/jenkins.war WEB-INF/jenkins-cli.jar \
- && chown jenkins. /u01/install/jenkins-cli.jar 
- 
-# && while ( ! ls /var/lib/jenkins/secrets/initialAdminPassword ); do sleep 10;done;contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
-# && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /u01/install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
+ && chown jenkins. /u01/install/jenkins-cli.jar \
+ && sleep 10 \
+ && while ( ! ls /var/lib/jenkins/secrets/initialAdminPassword ); do sleep 10;done;contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
+ && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /u01/install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
 CMD /u01/scrics/start_jenkins.sh \
  && /bin/bash
