@@ -21,5 +21,12 @@ RUN /u01/install/plugins.sh \
  && while ( ! ls /var/lib/jenkins/secrets/initialAdminPassword ); do sleep 10;done;contrasenya=`cat /var/lib/jenkins/secrets/initialAdminPassword` \
  && echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")' | java -jar /u01/install/jenkins-cli.jar -s http://localhost:8080/ groovy = --username admin --password $contrasenya
 
+#Instalacio MAVEN
+RUN cd /u01/install/ \
+ && wget http://apache.rediris.es/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+ && tar -xzvf apache-maven-3.3.9-bin.tar.gz \
+ && mv apache-maven-3.3.9 /u01/maven \
+ && echo "export PATH=$PATH:/u01/maven/bin/" >> /root/.bashrc
+
 CMD /u01/scrics/start_jenkins.sh \
  && /bin/bash
