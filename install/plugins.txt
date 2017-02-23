@@ -40,6 +40,7 @@ matrix-auth
 matrix-project
 maven-plugin
 momentjs
+myst-plugin
 naginator
 pam-auth
 parameterized-trigger
@@ -68,6 +69,7 @@ structs
 subversion
 timestamper
 token-macro
+weblogic-deployer-plugin
 windows-slaves
 workflow-aggregator
 workflow-api
